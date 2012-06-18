@@ -1,0 +1,39 @@
+03 January 2011
+   released version 2.0.58 of CarDetect
+
+     Change log:
+        -Updated: Separate thread functions in separate files
+        -Typo: Typos
+
+30 December 2010
+   released version 2.0.49 of CarDetect
+
+     Change log:
+        -New: Multithreaded approach to real-time application
+        -Fixed: wait time for real-time application
+        -Added: thread for haar detect
+        -Fixed: Some changes in threading
+        -Typo: 
+        -Added: Time_Critical priority for main thread
+        -Added: Realtime priority for process
+
+29 December 2010
+   released version 2.0.2 of CarDetect
+
+     Change log:
+        -Added: Find Biggest Object and DoRoughSearch are now command line options
+
+23 December 2010
+   released version 1.0.10 of CarDetect
+
+     Change log:
+        -Added: Cascade Classifier
+        -Typo: Typos
+        -Updated: WaitKey() in while(cap.grab)
+        -Fixed: Exit mechanism by pressing ESC
+        -Removed: CV_HAAR_DO_ROUGH_SEARCH
+        -Removed: CV_HAAR_FIND_BIGGEST_OBJECT
+        -Typo: Haar Detection
+        -Added: CV_HAAR_DO_ROUGH_SEARCH|CV_HAAR_FIND_BIGGEST_OBJECT
+        -Removed: CV_HAAR_FIND_BIGGEST_OBJECT
+

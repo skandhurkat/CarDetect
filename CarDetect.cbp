@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="CarDetect" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\CarDetect" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="-i ../../Data/vids_at_tollnaka/20101209103709.mpg -c carcascade_pics_at_tollnaka_12_stages.xml -s 3" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\CarDetect" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:\OpenCV2.2MinGW\include" />
+		</Compiler>
+		<Linker>
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_calib3d220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_calib3d_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_contrib220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_contrib_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_core220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_core_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_features2d220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_features2d_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_ffmpeg220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_flann220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_flann_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_gpu220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_gpu_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_haartraining_engine.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_highgui220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_highgui_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_imgproc220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_imgproc_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_legacy220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_legacy_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_ml220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_ml_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_objdetect220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_objdetect_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_test_core_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_test_pch_dephelp.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_ts220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_video220.dll.a" />
+			<Add library="C:\OpenCV2.2MinGW\lib\libopencv_video_pch_dephelp.a" />
+		</Linker>
+		<Unit filename="CarDetect.cpp" />
+		<Unit filename="globals.h" />
+		<Unit filename="haardetect.cpp" />
+		<Unit filename="haardetect.h" />
+		<Unit filename="version.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" do_auto_increment="1" ask_to_increment="1" language="C++" svn="0" svn_directory="" header_path="version.h" />
+				<Changes_Log show_changes_editor="1" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
+			</AutoVersioning>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
