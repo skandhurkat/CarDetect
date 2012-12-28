@@ -28,9 +28,8 @@
  * achieved.
  */
 
-#include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 
 #include <iostream>
 #include <windows.h>
@@ -38,8 +37,8 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <ctime>
-#include "globals.h"
-#include "haardetect.h"
+#include <globals.h>
+#include <haardetect.h>
 
 using namespace std;
 using namespace cv;

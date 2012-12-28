@@ -24,8 +24,8 @@
 #include <iostream>
 #include <vector>
 
-#include "globals.h"
-#include "haardetect.h"
+#include <globals.h>
+#include <haardetect.h>
 
 using namespace cv;
 using namespace std;
