@@ -1,5 +1,5 @@
-//ocr_spell_check.h
-//© Skand Hurkat, 2011
+// ocr_spell_check.h
+// Copyright 2011, 2012 Skand Hurkat
 
 /*     This file is part of CarDetect.
  *

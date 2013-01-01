@@ -1,21 +1,21 @@
-//CarDetect.cpp
-//© Skand Hurkat, 2011
+// CarDetect.cpp
+// Copyright 2011, 2012 Skand Hurkat
 
-/*     This file is part of CarDetect.
- *
- *     CarDetect is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     CarDetect is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with CarDetect.  If not, see <http://www.gnu.org/licenses/>.
- */
+//  This file is part of CarDetect.
+//
+//  CarDetect is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  CarDetect is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with CarDetect.  If not, see <http://www.gnu.org/licenses/>.
+
 
 /* This is the main file in the program. What it does is listed as follows:
  * It accepts arguments from the user and loads the various files.
@@ -32,8 +32,8 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include <iostream>
-#include <windows.h>
-#include <process.h>
+#include <thread>
+#include <mutex>
 #include <stdio.h>
 #include <getopt.h>
 #include <ctime>
@@ -63,10 +63,10 @@ vector<Rect> haarrectangles;
 bool terminate_program = false;
 
 //mutexes for multithreading:
-HANDLE img_mutex;
-HANDLE haarrectangles_mutex;
+mutex img_mutex;
+mutex haarrectangles_mutex;
 
-HANDLE haarthread;
+thread haarthread;
 unsigned int haarthreadid;
 
 void usage(int exit_code)
@@ -170,37 +170,10 @@ int main(int argc, char** argv)
     int video_height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
     cerr << "Video size is " << video_width << 'x' << video_height << endl;
     clock_t t1, t2 = clock();
-    int ms_taken, wait_time;
+    int wait_time;
 
-    if(SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS))
-    {
-        cerr << "Process priority set to Realtime" << endl;
-    }
-
-    img_mutex = CreateMutex(NULL, TRUE, NULL);
-    haarrectangles_mutex = CreateMutex(NULL, FALSE, NULL);
-    if(!img_mutex)
-    {
-        cerr << "Could not create image mutex. Please contact the developer.\n";
-        return 1;
-    }
-    if(!haarrectangles_mutex)
-    {
-        cerr << "Could not create haarrectangles mutex. Please contact the developer.\n";
-        return 1;
-    }
-
-    haarthread = (HANDLE)_beginthreadex(NULL, 0, haardetect, NULL, 0, &haarthreadid);
-    if(haarthread == NULL)
-    {
-        cerr << "Could not create haar thread. Terminating" << endl;
-        return 1;
-    }
-    DWORD haarthreadstatus;
-    if(SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL))
-    {
-        cerr << "Main thread priority set to time critical" << endl;
-    }
+    img_mutex.lock();
+    haarthread = thread(haardetect);
 
     clock_t t = clock();
     while(cap.grab())
@@ -212,7 +185,7 @@ int main(int argc, char** argv)
             if(!cap.grab())
             {
                 terminate_program = true;
-                WaitForSingleObject(haarthread, INFINITY);
+                haarthread.join();
                 return 0;
             }
             else
@@ -222,39 +195,19 @@ int main(int argc, char** argv)
             }
             wait_time += 1000/fps;
         }
-        GetExitCodeThread(haarthread, &haarthreadstatus);
-        if(haarthreadstatus != STILL_ACTIVE)
-        {
-            cerr << "Haar thread exited with code " << haarthreadstatus <<". Terminating." << endl;
-            return 1;
-        }
         img.release();
         cap.retrieve(img);
         l_img = img;
-        if(!ReleaseMutex(img_mutex))
-        {
-            cerr << "No idea why I cannot release the img_mutex! Terminating\n";
-// TODO (Skand Hurkat#1#): Clean up the various threads before terminating
-            terminate_program = true;
-            WaitForSingleObject(haarthread, INFINITY);
-            return 1;
-        }
+        img_mutex.unlock();
         if(waitKey(wait_time) == 27)
         {
 // TODO (Skand Hurkat#1#): Clean up the various threads before terminating
             terminate_program = true;
-            WaitForSingleObject(haarthread, INFINITY);
+            haarthread.join();
             return 0;
         }
 
-        if(WaitForSingleObject(haarrectangles_mutex, INFINITY) == WAIT_FAILED)
-        {
-            cerr << "Wait for haarrectangles_mutex failed. Terminating\n";
-// TODO (Skand Hurkat#1#): Clean up the various threads before terminating
-            terminate_program = true;
-            WaitForSingleObject(haarthread, INFINITY);
-            return 1;
-        }
+        haarrectangles_mutex.lock();
 
         for(unsigned int i=0; i<haarrectangles.size(); i++)
         {
@@ -262,28 +215,13 @@ int main(int argc, char** argv)
                       Point(haarrectangles[i].x+haarrectangles[i].width, haarrectangles[i].y+haarrectangles[i].height), Scalar(0,0,255), 5);
         }
 
-        if(!ReleaseMutex(haarrectangles_mutex))
-        {
-            cerr << "No idea why I cannot release the haarrectangles_mutex! Terminating\n";
-// TODO (Skand Hurkat#1#): Clean up the various threads before terminating
-            terminate_program = true;
-            WaitForSingleObject(haarthread, INFINITY);
-            return 1;
-        }
+        haarrectangles_mutex.unlock();
 
         imshow("Video", l_img);
 
         l_img.release();
-//        ms_taken = (getTickCount()-t1)/getTickFrequency()/1000;
 
-        if(WaitForSingleObject(img_mutex, INFINITY) == WAIT_FAILED)
-        {
-            cerr << "Wait for img_mutex failed. Terminating\n";
-// TODO (Skand Hurkat#1#): Clean up the various threads before terminating
-            terminate_program = true;
-            WaitForSingleObject(haarthread, INFINITY);
-            return 1;
-        }
+        img_mutex.lock();
         t2 = t1;
     }
     cerr << "The process took " << (clock()-t)/CLOCKS_PER_SEC << " seconds" << endl;

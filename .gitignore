@@ -1,0 +1,5 @@
+# ignore all the stupid backup files
+*.tmp *~ *.swp
+
+# ignore the build directory
+build/
