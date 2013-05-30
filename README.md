@@ -26,7 +26,8 @@ with CarDectect. If not, see <http://www.gnu.org/licenses/>.
 
 ## About ##
 
-This project uses the OpenCV library for image and video processing.
+This project uses the [OpenCV library](http://www.opencv.org/) for image
+and video processing.
 
 ### What has been implemented: ###
 
@@ -46,7 +47,7 @@ This project uses the OpenCV library for image and video processing.
 * Real time implementation of OCR. GOCR is extremely slow and painful.
 * Integration of all parts of code into a complete unit.
 
-## Note to those seeking to collaborate on the project ##
+### Note to those seeking to collaborate on the project ###
 
 I have no more interest in this project. This project is hereby made
 publicly available so that anyone in the academia or industry working on a
