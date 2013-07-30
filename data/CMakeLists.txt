@@ -1,0 +1,9 @@
+install(
+    FILES
+    carcascade_full_14.xml
+    carcascade_full_18.xml
+    carcascade_pics_at_tollnaka_12_stages.xml
+    carcascade.xml
+    DESTINATION
+    data/CarCascades
+    )
