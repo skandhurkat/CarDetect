@@ -2,12 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 project(CarDetect)
 
-# set modules path
-set(CMAKE_MODULE_PATH
-    ${CMAKE_ROOT}/Modules
-    ${PROJECT_SOURCE_DIR}/cmake
-   )
-
 cmake_policy(SET CMP0017 NEW)
 
 include(CheckCXXCompilerFlag)
